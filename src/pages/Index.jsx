@@ -1,15 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Container, Heading, SimpleGrid, Stat, StatLabel, StatNumber, StatHelpText, StatArrow, Image, Center, VStack, Text } from "@chakra-ui/react";
 import { FaHeartbeat, FaWalking, FaBed, FaBurn } from "react-icons/fa";
 
+// Simulated function to fetch real user health data
+function fetchHealthData() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        heartRate: 68, // bpm
+        steps: 10234,
+        sleepHours: 8.2,
+        caloriesBurned: 650,
+      });
+    }, 1000);
+  });
+}
+
 const Index = () => {
-  // Dummy data for demonstration purposes
-  const healthData = {
-    heartRate: 75, // bpm
-    steps: 6543,
-    sleepHours: 7.5,
-    caloriesBurned: 575,
-  };
+  const [healthData, setHealthData] = useState({
+    heartRate: 0, // bpm
+    steps: 0,
+    sleepHours: 0,
+    caloriesBurned: 0,
+  });
+
+  useEffect(() => {
+    fetchHealthData().then((data) => {
+      setHealthData(data);
+    });
+  }, []); // Added missing closing bracket
 
   return (
     <Container maxW="container.xl" py={10}>
